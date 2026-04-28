@@ -1,6 +1,7 @@
 ﻿var grid = [];
 var rows = parseInt(prompt("how many rows?"));
 var collum = parseInt(prompt("how many collums?"));
+var flagtoggle = false;
 function start() {
     var tables = document.getElementById("minetable");
     for (let i = 0; i < rows; i++) {
@@ -65,38 +66,49 @@ function neighbor() {
 }
 
 function reveal(row, collum) {
-    if (grid[row][collum] === undefined) {
-        return;
-    }
-    var cell = grid[row][collum];
-    if (cell.isRevealed || cell.isFlagged) return;
-    cell.isRevealed = true;
 
-    var img = document.createElement("img");
-    if (cell.isMine) {
-        img.src = "revealed_tile_bomb.png";
-        lostgame();
+        if (grid[row][collum] === undefined) {
+            return;
+        }
+        var cell = grid[row][collum];
+        if (cell.isRevealed || cell.isFlagged && flagtoggle == false) return;
+        cell.isRevealed = true;
 
-    } else if (cell.neighborCount == 0) {
-        img.src = "revealed_tile.png";
-        revealempty();
-    } else if (cell.neighborCount == 1) {
-        img.src = "revealed_tile_1.png";
-    } else if (cell.neighborCount == 2) {
-        img.src = "revealed_tile_2.png";
-    } else if (cell.neighborCount == 3) {
-        img.src = "revealed_tile_3.png";
-    } else if (cell.neighborCount == 4) {
-        img.src = "revealed_tile_4.png";
-    } else if (cell.neighborCount == 5) {
-        img.src = "revealed_tile_5.png";
-    } else if (cell.neighborCount == 6) {
-        img.src = "revealed_tile_6.png";
-    } else if (cell.neighborCount == 7) {
-        img.src = "revealed_tile_7.png";
-    } else if (cell.neighborCount == 8) {
-        img.src = "revealed_tile_8.png";
-    }
+        var img = document.createElement("img");
+        if (cell.isFlagged==false && flagtoggle ==true) {
+            img.src = "masked_tile_flag.png";
+            cell.isFlagged = true;
+        }
+        else if (cell.isFlagged == true && flagtoggle == true) {
+            img.src = "masked_tile.png"
+            cell.isFlagged = false;
+        }
+     
+        else if (cell.isMine) {
+            img.src = "revealed_tile_bomb.png";
+            lostgame();
+
+        } else if (cell.neighborCount == 0) {
+            img.src = "revealed_tile.png";
+
+        } else if (cell.neighborCount == 1) {
+            img.src = "revealed_tile_1.png";
+        } else if (cell.neighborCount == 2) {
+            img.src = "revealed_tile_2.png";
+        } else if (cell.neighborCount == 3) {
+            img.src = "revealed_tile_3.png";
+        } else if (cell.neighborCount == 4) {
+            img.src = "revealed_tile_4.png";
+        } else if (cell.neighborCount == 5) {
+            img.src = "revealed_tile_5.png";
+        } else if (cell.neighborCount == 6) {
+            img.src = "revealed_tile_6.png";
+        } else if (cell.neighborCount == 7) {
+            img.src = "revealed_tile_7.png";
+        } else if (cell.neighborCount == 8) {
+            img.src = "revealed_tile_8.png";
+        }
+    
 
     cell.td.innerHTML = "";
     cell.td.appendChild(img);
@@ -114,15 +126,23 @@ function lostgame() {
             }
         }
     }
-    location.reload();
+    setTimeout(function () {
+        location.reload();
+    }, 1000);
+}
+function flagtoggles(){
+    flagtoggle = !flagtoggle;
+    var button = document.getElementById("button");
 
+    if (flagtoggle === true) {
+        button.style.backgroundColor = "green";
+    } else {
+        button.style.backgroundColor = "red";
+    }
 }
 function revealempty() {
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < collum; j++) {
-            
-        }
-    }
 
 }
+
 start();
+    
