@@ -140,9 +140,7 @@ function flagtoggles(){
         button.style.backgroundColor = "red";
     }
 }
-function revealempty() {
 
-}
 
 start();
     
