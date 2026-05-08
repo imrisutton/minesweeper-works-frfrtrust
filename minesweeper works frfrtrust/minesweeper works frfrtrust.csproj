@@ -74,6 +74,7 @@
     <Content Include="masked_tile_question_mark.png" />
     <Content Include="minespweeper.html" />
     <Content Include="minespweeper.js" />
+    <Content Include="minesweeper.css" />
     <Content Include="revealed_tile.png" />
     <Content Include="revealed_tile_1.png" />
     <Content Include="revealed_tile_2.png" />

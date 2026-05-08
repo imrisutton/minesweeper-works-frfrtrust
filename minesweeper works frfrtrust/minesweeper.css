@@ -1,0 +1,9 @@
+﻿body {
+    display: flex;
+    flex-direction: column; /* מסדר אותם בטור */
+    justify-content: center; /* מרכז את כל הגוש באמצע המסך */
+    align-items: center; /* מרכז אופקית */
+    min-height: 100vh;
+    margin: 0;
+    gap: 0; /* מבטל רווחים אוטומטיים */
+}

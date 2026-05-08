@@ -4,6 +4,7 @@ var collum = parseInt(prompt("how many collums?"));
 var flagtoggle = false;
 var totmines = parseInt(prompt("how many mines?"));
 var totflags = totmines;
+document.getElementById("totflag").innerHTML = totflags;
 var gameover = false;
 function start() {
     var tables = document.getElementById("minetable");
@@ -161,7 +162,7 @@ function reveal(row, collum) {
         {
             for (let rowOffset = -1; rowOffset <= 1; rowOffset++)
             {
-                for (let colOffset = -1; colOffset <= 1; colOffset++)
+                   for (let colOffset = -1; colOffset <= 1; colOffset++)
                 {
                     var neighborRow = row + rowOffset;
                     var neighborCol = collum + colOffset;
