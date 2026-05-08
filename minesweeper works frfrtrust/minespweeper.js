@@ -193,8 +193,11 @@ function wingame() {
             if (!cell.isMine && !cell.isRevealed) {
                 return; 
             }
+            if (cell.isMine && !cell.isFlagged) return;  
+
         }
     }
+    alert("you won")
     gameover = true;
     document.getElementById("totflag").innerHTML = "YOU WON";
 
@@ -202,6 +205,7 @@ function wingame() {
 function lostgame(clickedRow, clickedCollum)
 {
     gameover = true;
+    alert("you lost")
     document.getElementById("totflag").innerHTML = "YOU LOST";
     for (let i = 0; i < rows; i++)
     {
