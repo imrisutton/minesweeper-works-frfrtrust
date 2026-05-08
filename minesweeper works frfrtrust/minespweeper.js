@@ -181,35 +181,34 @@ function reveal(row, collum) {
             lostgame(row, collum);
         }
         else {
-            checkwin();
+            wingame();
         }
     }
 }
 
-function checkwin()
-{
-    for (let i = 0; i < rows; i++)
-    {
-        for (let j = 0; j < collum; j++)
-        {
+function wingame() {
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < collum; j++) {
             var cell = grid[i][j];
-            if (!cell.isFlagged || !cell.isRevealed)
-            {
-                return;
+            if (!cell.isMine && !cell.isRevealed) {
+                return; 
             }
         }
     }
-}
+    gameover = true;
+    document.getElementById("totflag").innerHTML = "YOU WON";
 
+}
 function lostgame(clickedRow, clickedCollum)
 {
     gameover = true;
+    document.getElementById("totflag").innerHTML = "YOU LOST";
     for (let i = 0; i < rows; i++)
     {
         for (let j = 0; j < collum; j++)
         {
             var cell = grid[i][j];
-            if (i !== clickedRow && j !== clickedCollum) {
+            if (i !== clickedRow || j !== clickedCollum) { 
                 if (cell.isFlagged && !cell.isMine) {
                     var saveimg = document.createElement("img");
                     saveimg.src = "tile_not_mine.png";
