@@ -85,6 +85,8 @@
     <Content Include="revealed_tile_7.png" />
     <Content Include="revealed_tile_8.png" />
     <Content Include="revealed_tile_bomb.png" />
+    <Content Include="start.css" />
+    <Content Include="startpage.html" />
     <Content Include="tile_exploded.png" />
     <Content Include="tile_not_mine.png" />
     <Content Include="Web.config" />

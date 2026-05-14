@@ -6,28 +6,30 @@ var totmines = parseInt(prompt("how many mines?"));
 var totflags = totmines;
 document.getElementById("totflag").innerHTML = totflags;
 var gameover = false;
+
+// יוצר את לוח המשחק (grid + טבלה + תאים)
 function start() {
     var tables = document.getElementById("minetable");
+
     for (let i = 0; i < rows; i++) {
         grid[i] = [];
         var tr = document.createElement("tr");
 
-        for (let j = 0; j < collum; j++)
-        {
+        for (let j = 0; j < collum; j++) {
             var td = document.createElement("td");
             var img = document.createElement("img");
             img.src = "masked_tile.png";
-            grid[i][j] =
-            {
+
+            grid[i][j] = {
                 isMine: false,
                 isRevealed: false,
                 isFlagged: false,
                 neighborCount: 0,
                 rightflagged: false,
                 td: td
-            }
-            img.onclick = function ()
-            {
+            };
+
+            img.onclick = function () {
                 reveal(i, j);
             };
 
@@ -37,15 +39,19 @@ function start() {
 
         tables.appendChild(tr);
     }
+
     laymines();
     neighbor();
 }
 
+// מפזר מוקשים בצורה רנדומלית
 function laymines() {
     var mineplaced = 0;
+
     while (mineplaced < totmines) {
         var n1 = Math.floor(Math.random() * rows);
         var n2 = Math.floor(Math.random() * collum);
+
         if (grid[n1][n2].isMine == false) {
             grid[n1][n2].isMine = true;
             mineplaced++;
@@ -53,6 +59,7 @@ function laymines() {
     }
 }
 
+// מחשב כמה מוקשים יש סביב כל תא
 function neighbor() {
     for (let o = 0; o < rows; o++) {
         for (let p = 0; p < collum; p++) {
@@ -71,36 +78,37 @@ function neighbor() {
     }
 }
 
+// חושף תא + טיפול בדגלים + פתיחה רקורסיבית + בדיקת ניצחון/הפסד
 function reveal(row, collum) {
-    if (gameover==false) {
+    if (gameover == false) {
 
         var cell = grid[row][collum];
 
         if (cell.isRevealed) return;
 
         var img = document.createElement("img");
+
         img.onclick = function () {
             reveal(row, collum);
         };
-        if (flagtoggle)
-        {
-            if (cell.isFlagged)
-            {
+
+        // מצב דגלים
+        if (flagtoggle) {
+            if (cell.isFlagged) {
                 img.src = "masked_tile.png";
                 cell.isFlagged = false;
                 totflags++;
             }
-            else if (totflags > 0)
-            {
+            else if (totflags > 0) {
                 img.src = "masked_tile_flag.png";
                 cell.isFlagged = true;
                 totflags--;
             }
-            else
-            {
+            else {
                 document.getElementById("totflag").innerHTML = "no more flags left to put";
                 return;
             }
+
             cell.td.innerHTML = "";
             cell.td.appendChild(img);
             document.getElementById("totflag").innerHTML = totflags;
@@ -111,65 +119,48 @@ function reveal(row, collum) {
 
         cell.isRevealed = true;
 
-        if (cell.isMine)
-        {
+        // מוקש
+        if (cell.isMine) {
             img.src = "tile_exploded.png";
         }
-        else if (cell.neighborCount == 0)
-        {
+        // תא ריק
+        else if (cell.neighborCount == 0) {
             img.src = "revealed_tile.png";
         }
-        else if (cell.neighborCount == 1)
-        {
-            img.src = "revealed_tile_1.png";
-        }
-        else if (cell.neighborCount == 2)
-
-        {
-            img.src = "revealed_tile_2.png";
-        }
-        else if (cell.neighborCount == 3)
-        {
-            img.src = "revealed_tile_3.png";
-        }
-        else if (cell.neighborCount == 4)
-        {
-            img.src = "revealed_tile_4.png";
-        }
-        else if (cell.neighborCount == 5)
-        {
-            img.src = "revealed_tile_5.png";
-        }
-        else if (cell.neighborCount == 6)
-        {
-            img.src = "revealed_tile_6.png";
-        }
-        else if (cell.neighborCount == 7)
-        {
-            img.src = "revealed_tile_7.png";
-        }
-        else if (cell.neighborCount == 8)
-        {
-            img.src = "revealed_tile_8.png";
+        // מספרים
+        else {
+            for (let i = 1; i <= 8; i++) {
+                if (cell.neighborCount == i) {
+                    img.src = "revealed_tile_" + i + ".png";
+                    break;
+                }
+            }
         }
 
         cell.td.innerHTML = "";
         cell.td.appendChild(img);
+
         document.getElementById("totflag").innerHTML = totflags;
 
-        if (cell.neighborCount == 0 && !cell.isMine)
+        // פתיחה של שכנים אם התא ריק
+        if (cell.neighborCount == 0 && !cell.isMine) {
+            for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+                for (let colOffset = -1; colOffset <= 1; colOffset++) {
 
-        {
-            for (let rowOffset = -1; rowOffset <= 1; rowOffset++)
-            {
-                   for (let colOffset = -1; colOffset <= 1; colOffset++)
-                {
                     var neighborRow = row + rowOffset;
                     var neighborCol = collum + colOffset;
-                    if (neighborRow >= 0 && neighborRow < rows && neighborCol >= 0 && neighborCol < grid[neighborRow].length)
-                    {
-                        if (!grid[neighborRow][neighborCol].isRevealed && !grid[neighborRow][neighborCol].isFlagged && !grid[neighborRow][neighborCol].isMine)
-                        {
+
+                    if (
+                        neighborRow >= 0 &&
+                        neighborRow < rows &&
+                        neighborCol >= 0 &&
+                        neighborCol < grid[neighborRow].length
+                    ) {
+                        if (
+                            !grid[neighborRow][neighborCol].isRevealed &&
+                            !grid[neighborRow][neighborCol].isFlagged &&
+                            !grid[neighborRow][neighborCol].isMine
+                        ) {
                             reveal(neighborRow, neighborCol);
                         }
                     }
@@ -177,8 +168,8 @@ function reveal(row, collum) {
             }
         }
 
-        if (cell.isMine)
-        {
+        // הפסד / ניצחון
+        if (cell.isMine) {
             lostgame(row, collum);
         }
         else {
@@ -187,41 +178,41 @@ function reveal(row, collum) {
     }
 }
 
+// בדיקת ניצחון
 function wingame() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < collum; j++) {
             var cell = grid[i][j];
-            if (!cell.isMine && !cell.isRevealed) {
-                return; 
-            }
-            if (cell.isMine && !cell.isFlagged) return;  
 
+            if (!cell.isMine && !cell.isRevealed) return;
+            if (cell.isMine && !cell.isFlagged) return;
         }
     }
-    alert("you won")
+
+    alert("you won");
     gameover = true;
     document.getElementById("totflag").innerHTML = "YOU WON";
-
 }
-function lostgame(clickedRow, clickedCollum)
-{
+
+// הפסד + חשיפת כל המוקשים
+function lostgame(clickedRow, clickedCollum) {
     gameover = true;
-    alert("you lost")
+    alert("you lost");
     document.getElementById("totflag").innerHTML = "YOU LOST";
-    for (let i = 0; i < rows; i++)
-    {
-        for (let j = 0; j < collum; j++)
-        {
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < collum; j++) {
             var cell = grid[i][j];
-            if (i !== clickedRow || j !== clickedCollum) { 
+
+            if (i !== clickedRow || j !== clickedCollum) {
+
                 if (cell.isFlagged && !cell.isMine) {
                     var saveimg = document.createElement("img");
                     saveimg.src = "tile_not_mine.png";
                     cell.td.innerHTML = "";
                     cell.td.appendChild(saveimg);
                 }
-                else if (cell.isMine)
-                {
+                else if (cell.isMine) {
                     var mineImg = document.createElement("img");
                     mineImg.src = "revealed_tile_bomb.png";
                     cell.td.innerHTML = "";
@@ -232,18 +223,18 @@ function lostgame(clickedRow, clickedCollum)
     }
 }
 
-function resetgame()
-{
+// ריסט למשחק
+function resetgame() {
+    alert("המשחק עשה ריסט");
     location.reload();
 }
 
-function flagtoggles()
-{
+// הפעלה/כיבוי מצב דגלים
+function flagtoggles() {
     flagtoggle = !flagtoggle;
     var button = document.getElementById("button");
 
-    if (flagtoggle === true)
-    {
+    if (flagtoggle === true) {
         button.style.backgroundColor = "green";
     }
     else {
