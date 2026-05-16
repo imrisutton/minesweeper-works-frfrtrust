@@ -7,7 +7,7 @@ var totflags = totmines;
 document.getElementById("totflag").innerHTML = totflags;
 var gameover = false;
 
-// יוצר את לוח המשחק (grid + טבלה + תאים)
+// יוצר את לוח המשחק 
 function start() {
     var tables = document.getElementById("minetable");
 
@@ -78,7 +78,7 @@ function neighbor() {
     }
 }
 
-// חושף תא + טיפול בדגלים + פתיחה רקורסיבית + בדיקת ניצחון/הפסד
+// חושף תא מסדר דגלים חשיפת שכנים ללא מוקש לידם ובדיקת ניצחון או הפסד
 function reveal(row, collum) {
     if (gameover == false) {
 
@@ -178,7 +178,7 @@ function reveal(row, collum) {
     }
 }
 
-// בדיקת ניצחון
+//  ניצחון
 function wingame() {
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < collum; j++) {

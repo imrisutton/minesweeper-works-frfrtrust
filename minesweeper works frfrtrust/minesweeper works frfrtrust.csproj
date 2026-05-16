@@ -72,9 +72,11 @@
     <Content Include="masked_tile_flag_blue.png" />
     <Content Include="masked_tile_flag_gold.png" />
     <Content Include="masked_tile_question_mark.png" />
+    <Content Include="minesweeper.png" />
     <Content Include="minespweeper.html" />
     <Content Include="minespweeper.js" />
     <Content Include="minesweeper.css" />
+    <Content Include="minesweeper_fhd.png" />
     <Content Include="revealed_tile.png" />
     <Content Include="revealed_tile_1.png" />
     <Content Include="revealed_tile_2.png" />
